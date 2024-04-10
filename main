@@ -5,7 +5,7 @@ using namespace std;
 
 void get_input(double& input, const string& prompt);  // Function to get input for doubles
 void get_input(int& input, const string& prompt);     // Function to get input for integers
- 
+
 int main()
 {
     double balanceInput, annualInterestInput, monthlyDeposit, monthlyWithdrawal;
@@ -24,6 +24,10 @@ int main()
 
     double balance = balanceInput;
     int months = 0;
+    double totalWithdrawals = 0;
+    double totalDeposits = 0;
+    double monthlyInterest = annualInterestInput / 12;
+    double totalMonthlyInterest = 0;
 
     while (monthsInput > 0)
     {
@@ -31,14 +35,25 @@ int main()
    // Get monthly deposit
     get_input(monthlyDeposit, "How much have you deposited this month?: ");
     balance += monthlyDeposit;
+    totalDeposits += monthlyDeposit;
+
     //Get monthly withdrawal
     get_input(monthlyWithdrawal, "How much have you withdrew this month?: ");
     balance -= monthlyWithdrawal;
+    totalWithdrawals += monthlyWithdrawal;
 
     monthsInput -= 1;
     months += 1;
 
+    balance * monthlyInterest;
+    totalMonthlyInterest += monthlyInterest;
+
     cout << "Balance after month " << months << ": " << balance << endl;
+    cout << "(MONTHLY INTEREST ADDED TO BALANCE)\n";
+    }
+
+    if (monthsInput == 0) {
+        cout << "FINAL VALUES\n" << "Balance: " << balance << "\n" << "Total amount of Withdrawals: " << totalWithdrawals << "\n" << "Total amount of Deposits: " << totalDeposits << "\n" << "Monthly Interest: " << totalMonthlyInterest << "\n";
     }
     return 0;
 }
