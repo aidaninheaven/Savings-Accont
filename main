@@ -1,0 +1,70 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void get_input(double& input, const string& prompt);  // Function to get input for doubles
+void get_input(int& input, const string& prompt);     // Function to get input for integers
+ 
+int main()
+{
+    double balanceInput, annualInterestInput, monthlyDeposit, monthlyWithdrawal;
+    int monthsInput;
+    bool validInput = false;
+
+    // Get balance input
+    get_input(balanceInput, "Please input the initial balance: ");
+
+    // Get annual interest input
+    get_input(annualInterestInput, "Please input the annual interest: ");
+
+    // Get months input
+    get_input(monthsInput, "Please input the number of months: ");
+
+
+    double balance = balanceInput;
+    int months = 0;
+
+    while (monthsInput > 0)
+    {
+
+   // Get monthly deposit
+    get_input(monthlyDeposit, "How much have you deposited this month?: ");
+    balance += monthlyDeposit;
+    //Get monthly withdrawal
+    get_input(monthlyWithdrawal, "How much have you withdrew this month?: ");
+    balance -= monthlyWithdrawal;
+
+    monthsInput -= 1;
+    months += 1;
+
+    cout << "Balance after month " << months << ": " << balance << endl;
+    }
+    return 0;
+}
+
+void get_input(double& input, const string& prompt)
+{
+    cout << prompt;
+    while (!(cin >> input))
+    {
+        string str;
+        cin.clear();
+        getline(cin, str);  // Clear input buffer
+        cout << str << " is not a valid input. Please try again: ";
+    }
+    cout << "Input is valid." << endl;
+}
+
+void get_input(int& input, const string& prompt)
+{
+    cout << prompt;
+    while (!(cin >> input))
+    {
+        string str;
+        cin.clear();
+        getline(cin, str);  // Clear input buffer
+        cout << str << " is not a valid input. Please try again: ";
+    }
+    cout << "Input is valid." << endl;
+}
