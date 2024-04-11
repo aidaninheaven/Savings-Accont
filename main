@@ -1,5 +1,6 @@
-#include <iostream>
+include <iostream>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -14,13 +15,22 @@ int main()
 
     // Get balance input
     get_input(balanceInput, "Please input the initial balance: ");
-
+    while (balanceInput < 0) {
+        cout << "Invalid input, try again.";
+        cin >> balanceInput;
+    }
     // Get annual interest input
     get_input(annualInterestInput, "Please input the annual interest: ");
-
+    while (annualInterestInput < 0) {
+        cout << "Invalid input, try again.";
+        cin >> annualInterestInput;
+    }
     // Get months input
     get_input(monthsInput, "Please input the number of months: ");
-
+    while (monthsInput < 0) {
+        cout << "Invalid input, try again.";
+        cin >> monthsInput;
+    }
 
     double balance = balanceInput;
     int months = 0;
@@ -29,23 +39,31 @@ int main()
     double monthlyInterest = annualInterestInput / 12;
     double totalMonthlyInterest = 0;
 
+     fstream myFile("savingsdata.txt", ios::out);
+
     while (monthsInput > 0)
     {
 
    // Get monthly deposit
     get_input(monthlyDeposit, "How much have you deposited this month?: ");
+     while (monthlyDeposit < 0) {
+        cout << "Invalid input, try again.";
+        cin >> monthlyDeposit;
     balance += monthlyDeposit;
     totalDeposits += monthlyDeposit;
 
     //Get monthly withdrawal
     get_input(monthlyWithdrawal, "How much have you withdrew this month?: ");
+    while (monthlyWithdrawal < 0) {
+        cout << "Invalid input, try again.";
+        cin >> monthlyWithdrawal;
     balance -= monthlyWithdrawal;
     totalWithdrawals += monthlyWithdrawal;
 
     monthsInput -= 1;
     months += 1;
 
-    balance * monthlyInterest;
+    totalMonthlyInterest = balance * monthlyInterest;
     totalMonthlyInterest += monthlyInterest;
 
     cout << "Balance after month " << months << ": " << balance << endl;
@@ -53,8 +71,32 @@ int main()
     }
 
     if (monthsInput == 0) {
-        cout << "FINAL VALUES\n" << "Balance: " << balance << "\n" << "Total amount of Withdrawals: " << totalWithdrawals << "\n" << "Total amount of Deposits: " << totalDeposits << "\n" << "Monthly Interest: " << totalMonthlyInterest << "\n";
+
+        myFile << "FINAL VALUES\n" << "Balance: " << balance << "\n" << "Total amount of Withdrawals: " << totalWithdrawals << "\n" << "Total amount of Deposits: " << totalDeposits << "\n" << "Monthly Interest: " << totalMonthlyInterest << "\n";
     }
+    myFile.close();
+    cout << " Final data has been written in savingsdata.txt\n";
+
+      //open the file in input mode
+    fstream inputFile("savingsdata.txt", ios::in);
+
+    //checking if the file opened successfully
+    if (!inputFile.is_open())
+    {
+        cerr << "Error opening the file." << endl;
+        return 1;
+    }
+
+    string line;
+
+    //read and output each line from the file
+    while (getline(inputFile, line))
+    {
+        cout << line << endl;
+    }
+
+    // Close the input file
+    inputFile.close();
     return 0;
 }
 
@@ -68,7 +110,7 @@ void get_input(double& input, const string& prompt)
         getline(cin, str);  // Clear input buffer
         cout << str << " is not a valid input. Please try again: ";
     }
-    cout << "Input is valid." << endl;
+    cout << "Input is a number." << endl;
 }
 
 void get_input(int& input, const string& prompt)
@@ -81,5 +123,6 @@ void get_input(int& input, const string& prompt)
         getline(cin, str);  // Clear input buffer
         cout << str << " is not a valid input. Please try again: ";
     }
-    cout << "Input is valid." << endl;
+    cout << "Input is a number." << endl;
 }
+
